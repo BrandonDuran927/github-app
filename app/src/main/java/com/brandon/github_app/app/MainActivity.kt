@@ -18,6 +18,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.brandon.github_app.core.route.Search
+import com.brandon.github_app.fileViewer.presentation.fileViewerNavGraph
 import com.brandon.github_app.repoContents.presentation.repoContentsNavGraph
 import com.brandon.github_app.search.presentation.searchNavGraph
 import com.brandon.github_app.ui.theme.GithubappTheme
@@ -64,6 +65,10 @@ fun NavGraph(
 
         repoContentsNavGraph(
             modifier = modifier,
+            navController = navController
+        )
+
+        fileViewerNavGraph(
             navController = navController
         )
     }

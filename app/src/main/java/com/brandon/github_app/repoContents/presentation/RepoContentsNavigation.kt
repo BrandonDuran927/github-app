@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.brandon.github_app.core.route.FileViewer
 import com.brandon.github_app.core.route.RepoContents
 
 fun NavGraphBuilder.repoContentsNavGraph(
@@ -19,6 +20,12 @@ fun NavGraphBuilder.repoContentsNavGraph(
                         owner = ownerName,
                         repoName = repoName,
                         path = repoDetail.path
+                    ))
+                } else {
+                    navController.navigate(FileViewer(
+                        owner = ownerName,
+                        repoName = repoName,
+                        filePath = repoDetail.path
                     ))
                 }
             },
