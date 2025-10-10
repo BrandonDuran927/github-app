@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -19,6 +21,15 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // Load API key from local.properties file (not committed to version control)
+        // This keeps sensitive credentials secure and separate from the codebase
+        val properties = Properties()
+        properties.load(project.rootProject.file("local.properties").inputStream())
+
+        // Inject API key as a BuildConfig constant accessible throughout the app
+        // Usage: BuildConfig.API_KEY
+        buildConfigField("String", "API_KEY", "\"${properties.getProperty("GITHUB_TOKEN")}\"")
     }
 
     buildTypes {
@@ -38,6 +49,7 @@ android {
         jvmTarget = "11"
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
 }

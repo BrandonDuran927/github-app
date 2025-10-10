@@ -45,6 +45,7 @@ class RepoContentsViewModel @Inject constructor(
                 .collectLatest { result ->
                     when (result) {
                         is CustomResult.Success<List<RepoContentsItem>> -> {
+                            Log.d("RepoContentsViewModel", "retrieveRepoContents: ${result.data}")
                             state = state.copy(
                                 repoContents = result.data,
                                 isLoading = false

@@ -28,6 +28,7 @@ class RepoContentsRepositoryImpl @Inject constructor(
                     path = path
                 )
                 val domainModels = response.toDomain()
+                Log.d("RepoContentsRepository", "getRepoContents: $domainModels")
                 emit(CustomResult.Success(domainModels))
             } catch (e: Exception) {
                 emit(CustomResult.Failure(e))

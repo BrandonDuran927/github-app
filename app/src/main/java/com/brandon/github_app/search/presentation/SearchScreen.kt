@@ -17,10 +17,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -89,8 +91,19 @@ private fun SearchScreen(
                     onAction(SearchAction.OnSearchQueryChange(it))
                 },
                 modifier = Modifier.fillMaxWidth(),
-                placeholder = { Text("Enter GitHub username") },
-                singleLine = true
+                placeholder = {
+                    Text(
+                        text = "Enter GitHub username",
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
+                },
+                singleLine = true,
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent,
+                    focusedIndicatorColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.5f),
+                    cursorColor = MaterialTheme.colorScheme.onPrimary
+                )
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -112,8 +125,8 @@ private fun SearchScreen(
                     .height(50.dp),
                 shape = RectangleShape,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary
+                    containerColor = Color(0xFF1C1C1C),
+                    contentColor = Color.White
                 )
             ) {
                 Text(
