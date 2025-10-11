@@ -25,13 +25,28 @@ class ConnectivityObserver(
             override fun onLost(network: Network) {
                 trySend(NetworkStatus.Unavailable).isSuccess
             }
+
+            override fun onUnavailable() {
+                trySend(NetworkStatus.Unavailable)
+            }
         }
 
         val networkRequest = NetworkRequest.Builder()
             .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            .addCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
             .build()
 
         connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
+
+        // Send initial state
+        val isConnected = connectivityManager.activeNetwork?.let { network ->
+            connectivityManager.getNetworkCapabilities(network)
+                ?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true &&
+                    connectivityManager.getNetworkCapabilities(network)
+                        ?.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED) == true
+        } ?: false
+
+        trySend(if (isConnected) NetworkStatus.Available else NetworkStatus.Unavailable)
 
         awaitClose {
             connectivityManager.unregisterNetworkCallback(networkCallback)
