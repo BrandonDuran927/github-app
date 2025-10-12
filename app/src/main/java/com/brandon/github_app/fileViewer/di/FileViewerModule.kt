@@ -16,7 +16,7 @@ import com.brandon.github_app.BuildConfig
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+object FileViewerModule {
 
     private val loggingInterceptor: HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY

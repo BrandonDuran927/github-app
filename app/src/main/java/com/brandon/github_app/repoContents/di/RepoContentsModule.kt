@@ -1,7 +1,7 @@
-package com.brandon.github_app.userRepos.di
+package com.brandon.github_app.repoContents.di
 
 import com.brandon.github_app.BuildConfig
-import com.brandon.github_app.userRepos.data.remote.UserRepoListApi
+import com.brandon.github_app.repoContents.data.remote.RepoContentsApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,7 +16,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+object RepoContentsModule {
 
     private val loggingInterceptor: HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
@@ -42,19 +42,18 @@ object AppModule {
     }
 
     private val client: OkHttpClient = OkHttpClient.Builder()
-        .addInterceptor(authInterceptor)
         .addInterceptor(loggingInterceptor)
+        .addInterceptor(authInterceptor)
         .build()
 
     @Provides
     @Singleton
-    fun providesUserRepoApi() : UserRepoListApi {
+    fun providesRepoContentsApi() : RepoContentsApi {
         return Retrofit.Builder()
-            .baseUrl(UserRepoListApi.BASE_URL)
+            .baseUrl(RepoContentsApi.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
-            .create(UserRepoListApi::class.java)
-
+            .create(RepoContentsApi::class.java)
     }
 }
