@@ -161,7 +161,7 @@ private fun FileViewerScreen(
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background)
                 .padding(innerPadding)
-                .padding(horizontal = 24.dp)
+                .padding(start = 24.dp, end = 24.dp, bottom = 16.dp)
         ) {
             Text(
                 text = "Codes",

@@ -46,6 +46,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -145,12 +146,26 @@ fun UserReposScreen(
 
             Spacer(Modifier.height(16.dp))
 
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(6.dp)
-            ) {
-                items(state.userRepos) { repo ->
-                    RepoItem(repo = repo, onDetailsClick = onDetailsClick)
+            when {
+                state.userRepos.isEmpty() -> {
+                    Text(
+                        text = "No content available",
+                        fontSize = 24.sp,
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center
+                    )
+                }
+
+                else -> {
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.spacedBy(6.dp)
+                    ) {
+                        items(state.userRepos) { repo ->
+                            RepoItem(repo = repo, onDetailsClick = onDetailsClick)
+                        }
+                    }
                 }
             }
         }
@@ -189,7 +204,7 @@ fun ProfilePictureDialog(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // Close button
-        Row (
+        Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween

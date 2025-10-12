@@ -54,14 +54,12 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize()
                 ) { innerPadding ->
                     Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(innerPadding)
+                        modifier = Modifier.fillMaxSize()
                     ) {
                         val navController = rememberNavController()
 
                         NavGraph(
-                            modifier = Modifier.fillMaxSize(),
+                            modifier = Modifier.padding(innerPadding),
                             navController = navController,
                         )
 
@@ -70,6 +68,7 @@ class MainActivity : ComponentActivity() {
                             visible = networkStatus != NetworkStatus.Available,
                             modifier = Modifier
                                 .align(Alignment.BottomCenter)
+                                .padding(innerPadding)
                                 .padding(16.dp),
                             enter = slideInVertically(initialOffsetY = { it }) + fadeIn(),
                             exit = slideOutVertically(targetOffsetY = { it }) + fadeOut()
@@ -102,7 +101,6 @@ fun NavGraph(
         )
 
         repoContentsNavGraph(
-            modifier = modifier,
             navController = navController
         )
 
