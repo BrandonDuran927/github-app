@@ -5,15 +5,19 @@ import android.graphics.drawable.shapes.Shape
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.History
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -31,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.brandon.github_app.R
+import com.brandon.github_app.core.model.Search
 import com.brandon.github_app.ui.theme.GithubappTheme
 
 
@@ -38,14 +43,16 @@ import com.brandon.github_app.ui.theme.GithubappTheme
 fun SearchScreenCore(
     modifier: Modifier = Modifier,
     viewModel: SearchViewModel = hiltViewModel<SearchViewModel>(),
-    onSearchClick: (String) -> Unit
+    onSearchClick: (String) -> Unit,
+    onSearchHistoryClick: () -> Unit
 ) {
 
     SearchScreen(
         modifier = modifier,
         state = viewModel.state,
         onAction = viewModel::onAction,
-        onSearchClick = onSearchClick
+        onSearchClick = onSearchClick,
+        onSearchHistoryClick = onSearchHistoryClick
     )
 }
 
@@ -54,20 +61,39 @@ private fun SearchScreen(
     modifier: Modifier = Modifier,
     state: SearchState,
     onAction: (SearchAction) -> Unit,
-    onSearchClick: (String) -> Unit
+    onSearchClick: (String) -> Unit,
+    onSearchHistoryClick: () -> Unit
 ) {
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-            .padding(24.dp)
+            .padding(start = 24.dp, end = 24.dp, bottom = 24.dp)
     ) {
-        Text(
-            text = "GitHub API",
-            style = MaterialTheme.typography.headlineLarge,
-            color = MaterialTheme.colorScheme.onBackground,
-            fontWeight = FontWeight.Bold
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = "GitHub API",
+                style = MaterialTheme.typography.headlineLarge,
+                color = MaterialTheme.colorScheme.onBackground,
+                fontWeight = FontWeight.Bold
+            )
+
+            IconButton(
+                onClick = onSearchHistoryClick
+            ) {
+                Icon(
+                    imageVector = Icons.Default.History,
+                    contentDescription = "GitHub Logo",
+                    modifier = Modifier.size(40.dp),
+                    tint = MaterialTheme.colorScheme.onBackground
+                )
+            }
+        }
+
 
         Column(
             modifier = Modifier
@@ -76,6 +102,7 @@ private fun SearchScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
+
             Icon(
                 painter = painterResource(id = R.drawable.github_icon),
                 contentDescription = "GitHub Logo",
@@ -117,6 +144,7 @@ private fun SearchScreen(
                     } else {
                         onAction(SearchAction.OnSearchEmpty(false))
                         onSearchClick(state.query)
+                        onAction(SearchAction.StoreSearch(state.query))
                         onAction(SearchAction.ResetState)
                     }
                 },
@@ -159,7 +187,8 @@ private fun ScreenPreview() {
         SearchScreen(
             state = SearchState(),
             onAction = {},
-            onSearchClick = {}
+            onSearchClick = {},
+            onSearchHistoryClick = {}
         )
     }
 }

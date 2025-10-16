@@ -1,7 +1,7 @@
-package com.brandon.github_app.userRepos.domain
+package com.brandon.github_app.listOfRepo.domain
 
 import com.brandon.github_app.core.CustomResult
-import com.brandon.github_app.userRepos.domain.model.UserRepo
+import com.brandon.github_app.listOfRepo.domain.model.UserRepo
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepoRepository {

@@ -2,8 +2,6 @@ package com.brandon.github_app.repoContents.di
 
 import com.brandon.github_app.repoContents.data.RepoContentsRepositoryImpl
 import com.brandon.github_app.repoContents.domain.RepoContentsRepository
-import com.brandon.github_app.userRepos.data.UserRepoRepositoryImpl
-import com.brandon.github_app.userRepos.domain.UserRepoRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

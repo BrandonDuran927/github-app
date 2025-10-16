@@ -1,6 +1,6 @@
-package com.brandon.github_app.userRepos.presentation
+package com.brandon.github_app.listOfRepo.presentation
 
-import com.brandon.github_app.userRepos.domain.model.UserRepo
+import com.brandon.github_app.listOfRepo.domain.model.UserRepo
 
 data class UserReposState(
     val username: String = "",

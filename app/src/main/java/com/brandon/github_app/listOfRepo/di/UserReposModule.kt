@@ -1,7 +1,7 @@
-package com.brandon.github_app.userRepos.di
+package com.brandon.github_app.listOfRepo.di
 
 import com.brandon.github_app.BuildConfig
-import com.brandon.github_app.userRepos.data.remote.UserRepoListApi
+import com.brandon.github_app.listOfRepo.data.remote.UserRepoListApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

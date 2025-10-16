@@ -1,4 +1,4 @@
-package com.brandon.github_app.userRepos.domain.model
+package com.brandon.github_app.listOfRepo.domain.model
 
 import com.brandon.github_app.core.model.Owner
 

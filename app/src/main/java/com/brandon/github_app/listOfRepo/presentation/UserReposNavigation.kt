@@ -1,7 +1,6 @@
-package com.brandon.github_app.userRepos.presentation
+package com.brandon.github_app.listOfRepo.presentation
 
 import android.util.Log
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable

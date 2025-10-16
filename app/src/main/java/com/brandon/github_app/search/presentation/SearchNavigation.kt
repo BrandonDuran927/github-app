@@ -6,6 +6,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.brandon.github_app.core.route.Search
+import com.brandon.github_app.core.route.SearchHistory
 import com.brandon.github_app.core.route.UserRepos
 
 fun NavGraphBuilder.searchNavGraph(
@@ -17,6 +18,9 @@ fun NavGraphBuilder.searchNavGraph(
             modifier = modifier,
             onSearchClick = { username ->
                 navController.navigate(UserRepos(username))
+            },
+            onSearchHistoryClick = {
+                navController.navigate(SearchHistory)
             }
         )
     }

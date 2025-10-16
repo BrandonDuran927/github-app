@@ -21,3 +21,6 @@ data class FileViewer(
     val repoName: String,
     val filePath: String
 )
+
+@Serializable
+data object SearchHistory

@@ -1,8 +1,8 @@
-package com.brandon.github_app.userRepos.data.mappers
+package com.brandon.github_app.listOfRepo.data.mappers
 
 import com.brandon.github_app.core.model.Owner
-import com.brandon.github_app.userRepos.data.remote.respond.UserRepoDto
-import com.brandon.github_app.userRepos.domain.model.UserRepo
+import com.brandon.github_app.listOfRepo.data.remote.respond.UserRepoDto
+import com.brandon.github_app.listOfRepo.domain.model.UserRepo
 
 fun UserRepoDto.toDomain(): UserRepo {
     return UserRepo(

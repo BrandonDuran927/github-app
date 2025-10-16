@@ -1,7 +1,7 @@
-package com.brandon.github_app.userRepos.di
+package com.brandon.github_app.listOfRepo.di
 
-import com.brandon.github_app.userRepos.data.UserRepoRepositoryImpl
-import com.brandon.github_app.userRepos.domain.UserRepoRepository
+import com.brandon.github_app.listOfRepo.data.UserRepoRepositoryImpl
+import com.brandon.github_app.listOfRepo.domain.UserRepoRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

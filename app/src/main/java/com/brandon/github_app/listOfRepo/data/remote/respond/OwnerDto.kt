@@ -1,4 +1,4 @@
-package com.brandon.github_app.userRepos.data.remote.respond
+package com.brandon.github_app.listOfRepo.data.remote.respond
 
 data class OwnerDto(
     val avatar_url: String,

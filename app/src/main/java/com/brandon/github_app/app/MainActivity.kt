@@ -10,32 +10,27 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.brandon.github_app.core.composables.NetworkStatusBar
 import com.brandon.github_app.core.route.Search
 import com.brandon.github_app.fileViewer.presentation.fileViewerNavGraph
 import com.brandon.github_app.repoContents.presentation.repoContentsNavGraph
 import com.brandon.github_app.search.presentation.searchNavGraph
+import com.brandon.github_app.searchHistory.presentation.searchHistoryNavGraph
 import com.brandon.github_app.ui.theme.GithubappTheme
-import com.brandon.github_app.userRepos.presentation.userReposNavGraph
+import com.brandon.github_app.listOfRepo.presentation.userReposNavGraph
 import com.example.beupdated.core.network.NetworkStatus
 import com.example.beupdated.core.network.NetworkViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -105,6 +100,10 @@ fun NavGraph(
         )
 
         fileViewerNavGraph(
+            navController = navController
+        )
+
+        searchHistoryNavGraph(
             navController = navController
         )
     }

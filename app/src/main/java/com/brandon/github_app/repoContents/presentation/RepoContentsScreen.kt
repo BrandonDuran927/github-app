@@ -40,7 +40,6 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.brandon.github_app.R
 import com.brandon.github_app.repoContents.domain.model.RepoContentsItem
 import com.brandon.github_app.ui.theme.GithubappTheme
-import com.brandon.github_app.userRepos.domain.model.UserRepo
 
 @Composable
 fun RepoContentsScreenCore(

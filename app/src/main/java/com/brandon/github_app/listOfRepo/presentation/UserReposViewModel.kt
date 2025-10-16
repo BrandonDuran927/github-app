@@ -1,4 +1,4 @@
-package com.brandon.github_app.userRepos.presentation
+package com.brandon.github_app.listOfRepo.presentation
 
 import android.util.Log
 import androidx.compose.runtime.getValue
@@ -7,7 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.brandon.github_app.userRepos.domain.UserRepoRepository
+import com.brandon.github_app.listOfRepo.domain.UserRepoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

@@ -1,6 +1,6 @@
-package com.brandon.github_app.userRepos.data.remote
+package com.brandon.github_app.listOfRepo.data.remote
 
-import com.brandon.github_app.userRepos.data.remote.respond.UserRepoDto
+import com.brandon.github_app.listOfRepo.data.remote.respond.UserRepoDto
 import retrofit2.http.GET
 import retrofit2.http.Path
 
