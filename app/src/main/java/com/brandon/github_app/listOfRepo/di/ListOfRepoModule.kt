@@ -1,10 +1,16 @@
 package com.brandon.github_app.listOfRepo.di
 
+import android.content.Context
+import androidx.room.Room
 import com.brandon.github_app.BuildConfig
+import com.brandon.github_app.core.local.SearchDatabase
+import com.brandon.github_app.listOfRepo.data.local.RepositoryDao
+import com.brandon.github_app.listOfRepo.data.local.RepositoryDatabase
 import com.brandon.github_app.listOfRepo.data.remote.UserRepoListApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -16,7 +22,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object UserReposModule {
+object ListOfRepoModule {
 
     private val loggingInterceptor: HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
@@ -57,4 +63,21 @@ object UserReposModule {
             .create(UserRepoListApi::class.java)
 
     }
+
+    @Singleton
+    @Provides
+    fun provideRepositoryDb(@ApplicationContext context: Context) : RepositoryDatabase {
+        return Room.databaseBuilder<RepositoryDatabase>(
+            context,
+            "repository.db"
+        ).build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideRepositoryDao(repositoryDatabase: RepositoryDatabase) : RepositoryDao {
+        return repositoryDatabase.dao
+    }
+
+
 }

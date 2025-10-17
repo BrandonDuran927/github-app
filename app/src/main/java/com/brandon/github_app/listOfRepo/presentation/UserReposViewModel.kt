@@ -1,6 +1,5 @@
 package com.brandon.github_app.listOfRepo.presentation
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -29,28 +28,20 @@ class UserReposViewModel @Inject constructor(
 
     fun onAction(action: UserReposAction) {
         when (action) {
-            is UserReposAction.ViewUserPicture -> state = state.copy(showUserPictureDialog = action.isView)
+            is UserReposAction.ViewUserPicture -> state = state.copy(showUserPictureDialog = action.isView,)
+            is UserReposAction.NetworkStatusChanged -> state = state.copy(networkStatus = action.networkStatus)
         }
     }
 
     private fun getUserRepos() {
-        state = state.copy(isLoading = true, username = username.value)
-
-        Log.d("ViewModelNaten", "${state.isLoading}")
+        state = state.copy(username = username.value, isLoading = true,)
 
         viewModelScope.launch {
-//            delay(1500L)
-
             repository.getUserRepos(username.value).collectLatest { result ->
                 state = state.copy(
                     userRepos = result.getOrNull() ?: emptyList(),
-                    isLoading = false
                 )
-
-                Log.d("UserReposViewModel", "getUserRepos: ${state.userRepos}")
             }
         }
-
-        Log.d("ViewModelNaten", "${state.isLoading}")
     }
 }

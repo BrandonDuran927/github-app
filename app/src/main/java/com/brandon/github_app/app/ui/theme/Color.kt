@@ -1,4 +1,4 @@
-package com.brandon.github_app.ui.theme
+package com.brandon.github_app.app.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

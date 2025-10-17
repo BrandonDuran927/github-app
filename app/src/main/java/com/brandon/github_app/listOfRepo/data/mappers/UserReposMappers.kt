@@ -15,7 +15,9 @@ fun UserRepoDto.toDomain(): UserRepo {
             username = owner.login
         ),
         stargazers_count = stargazers_count,
-        language = language
+        language = language,
+        pushed_at = pushed_at,
+        updated_at = updated_at
     )
 }
 

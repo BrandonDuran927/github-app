@@ -57,8 +57,6 @@ class SearchHistoryViewModel @Inject constructor(
 
                 state = when (result) {
                     is CustomResult.Success<List<Search>> -> {
-                        Log.d("SearchHistoryViewModel", "Retrieved search history1: ${result.data}")
-
                         state.copy(
                             searchHistory = result.data,
                             isLoading = false,

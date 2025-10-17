@@ -1,7 +1,6 @@
 package com.brandon.github_app.search.presentation
 
 import android.content.res.Configuration
-import android.graphics.drawable.shapes.Shape
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,7 +24,6 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
@@ -35,8 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.brandon.github_app.R
-import com.brandon.github_app.core.model.Search
-import com.brandon.github_app.ui.theme.GithubappTheme
+import com.brandon.github_app.app.ui.theme.GithubappTheme
 
 
 @Composable

@@ -7,5 +7,7 @@ data class UserRepoDto(
     val description: String? = null,
     val owner: OwnerDto,
     val stargazers_count: Int,
-    val language: String? = null
+    val language: String? = null,
+    val pushed_at: String,
+    val updated_at: String
 )

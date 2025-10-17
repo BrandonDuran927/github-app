@@ -23,14 +23,14 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.brandon.github_app.app.ui.theme.GithubappTheme
 import com.brandon.github_app.core.composables.NetworkStatusBar
 import com.brandon.github_app.core.route.Search
 import com.brandon.github_app.fileViewer.presentation.fileViewerNavGraph
 import com.brandon.github_app.repoContents.presentation.repoContentsNavGraph
 import com.brandon.github_app.search.presentation.searchNavGraph
 import com.brandon.github_app.searchHistory.presentation.searchHistoryNavGraph
-import com.brandon.github_app.ui.theme.GithubappTheme
-import com.brandon.github_app.listOfRepo.presentation.userReposNavGraph
+import com.brandon.github_app.listOfRepo.presentation.listOfRepoNavGraph
 import com.example.beupdated.core.network.NetworkStatus
 import com.example.beupdated.core.network.NetworkViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -56,6 +56,7 @@ class MainActivity : ComponentActivity() {
                         NavGraph(
                             modifier = Modifier.padding(innerPadding),
                             navController = navController,
+                            networkStatus = networkStatus
                         )
 
                         // Floating network status at bottom
@@ -81,6 +82,7 @@ class MainActivity : ComponentActivity() {
 fun NavGraph(
     modifier: Modifier,
     navController: NavHostController,
+    networkStatus: NetworkStatus
 ) {
     NavHost(
         navController = navController,
@@ -91,8 +93,9 @@ fun NavGraph(
             navController = navController
         )
 
-        userReposNavGraph(
-            navController = navController
+        listOfRepoNavGraph(
+            navController = navController,
+            networkStatus = networkStatus
         )
 
         repoContentsNavGraph(

@@ -8,5 +8,7 @@ data class UserRepo(
     val description: String?,
     val owner: Owner,
     val stargazers_count: Int,
-    val language: String?
+    val language: String?,
+    val pushed_at: String,
+    val updated_at: String
 )

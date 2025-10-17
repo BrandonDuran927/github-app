@@ -32,6 +32,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -48,16 +49,22 @@ import androidx.compose.ui.window.Dialog
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.brandon.github_app.R
-import com.brandon.github_app.core.model.Owner
-import com.brandon.github_app.ui.theme.GithubappTheme
+import com.brandon.github_app.app.ui.theme.GithubappTheme
 import com.brandon.github_app.listOfRepo.domain.model.UserRepo
+import com.example.beupdated.core.network.NetworkStatus
 
 @Composable
 fun UserReposScreenCore(
     viewModel: UserReposViewModel = hiltViewModel<UserReposViewModel>(),
     onDetailsClick: (UserRepo) -> Unit,
     onBackPress: () -> Unit,
+    networkStatus: NetworkStatus
 ) {
+    // Update network status in ViewModel everytime status has changed
+    LaunchedEffect(networkStatus) {
+        viewModel.onAction(UserReposAction.NetworkStatusChanged(networkStatus))
+    }
+
     UserReposScreen(
         state = viewModel.state,
         onAction = viewModel::onAction,
@@ -320,30 +327,3 @@ private fun ScreenPreview() {
         )
     }
 }
-
-private val mockUpData = listOf(
-    UserRepo(
-        id = 1,
-        name = "404-Error-Page-UI-Flutter",
-        description = "404 Error Page(UI) Using Flutter asdf as fdasd f",
-        owner = Owner(
-            id = 1,
-            username = "BrandonDuran927",
-            avatar_url = ""
-        ),
-        stargazers_count = 10,
-        language = "Dart"
-    ),
-    UserRepo(
-        id = 2,
-        name = "App-onboarding-UI-Flutter",
-        description = "Onboarding App UI using Flutter",
-        owner = Owner(
-            id = 1,
-            username = "BrandonDuran927",
-            avatar_url = ""
-        ),
-        stargazers_count = 3,
-        language = "Dart"
-    )
-)

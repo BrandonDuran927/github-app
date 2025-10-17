@@ -40,7 +40,9 @@ class SearchHistoryRepositoryImpl @Inject constructor(
         return dao.getSearchHistory()
             .map { entities ->
                 try {
-                    val searches = entities.toDomain()
+                    val searches = entities.toDomain().sortedByDescending {
+                        it.id
+                    }
                     CustomResult.Success(searches)
                 } catch (e: Exception) {
                     e.printStackTrace()

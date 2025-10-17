@@ -38,8 +38,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.brandon.github_app.R
+import com.brandon.github_app.app.ui.theme.GithubappTheme
 import com.brandon.github_app.repoContents.domain.model.RepoContentsItem
-import com.brandon.github_app.ui.theme.GithubappTheme
 
 @Composable
 fun RepoContentsScreenCore(
