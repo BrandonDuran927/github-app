@@ -1,5 +1,7 @@
 package com.brandon.github_app.fileViewer.di
 
+import android.content.Context
+import androidx.room.Room
 import com.brandon.github_app.fileViewer.data.remote.FileViewerApi
 import dagger.Module
 import dagger.Provides
@@ -12,6 +14,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 import com.brandon.github_app.BuildConfig
+import com.brandon.github_app.fileViewer.data.local.FileViewerDao
+import com.brandon.github_app.fileViewer.data.local.FileViewerDatabase
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 
 @Module
@@ -55,6 +60,21 @@ object FileViewerModule {
             .client(client)
             .build()
             .create(FileViewerApi::class.java)
-
     }
-}
+
+    @Provides
+    @Singleton
+    fun provideFileViewerDatabase(@ApplicationContext context: Context) : FileViewerDatabase {
+        return Room.databaseBuilder(
+            context,
+            FileViewerDatabase::class.java,
+            "fileViewer_db"
+        ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFileViewerDao(db: FileViewerDatabase) : FileViewerDao {
+        return db.dao
+    }
+ }

@@ -1,10 +1,16 @@
 package com.brandon.github_app.repoContents.di
 
+import android.content.Context
+import androidx.room.Room
 import com.brandon.github_app.BuildConfig
+import com.brandon.github_app.listOfRepo.data.local.RepositoryDao
+import com.brandon.github_app.repoContents.data.local.RepoContentsDao
+import com.brandon.github_app.repoContents.data.local.RepoContentsDatabase
 import com.brandon.github_app.repoContents.data.remote.RepoContentsApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -55,5 +61,22 @@ object RepoContentsModule {
             .client(client)
             .build()
             .create(RepoContentsApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRepoContentsDb(@ApplicationContext context: Context): RepoContentsDatabase {
+        return Room.databaseBuilder<RepoContentsDatabase>(
+            context,
+            "repo_contents.db"
+        )
+            .fallbackToDestructiveMigration(false)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideRepoContentsDao(repoContentDb: RepoContentsDatabase) : RepoContentsDao {
+        return repoContentDb.dao
     }
 }

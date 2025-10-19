@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface FileViewerRepository {
     suspend fun getFile(
+        repoId: Int,
         owner: String,
         repoName: String,
         filePath: String

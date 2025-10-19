@@ -55,8 +55,7 @@ class MainActivity : ComponentActivity() {
 
                         NavGraph(
                             modifier = Modifier.padding(innerPadding),
-                            navController = navController,
-                            networkStatus = networkStatus
+                            navController = navController
                         )
 
                         // Floating network status at bottom
@@ -81,8 +80,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun NavGraph(
     modifier: Modifier,
-    navController: NavHostController,
-    networkStatus: NetworkStatus
+    navController: NavHostController
 ) {
     NavHost(
         navController = navController,
@@ -94,8 +92,7 @@ fun NavGraph(
         )
 
         listOfRepoNavGraph(
-            navController = navController,
-            networkStatus = networkStatus
+            navController = navController
         )
 
         repoContentsNavGraph(

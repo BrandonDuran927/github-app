@@ -58,12 +58,8 @@ fun UserReposScreenCore(
     viewModel: UserReposViewModel = hiltViewModel<UserReposViewModel>(),
     onDetailsClick: (UserRepo) -> Unit,
     onBackPress: () -> Unit,
-    networkStatus: NetworkStatus
 ) {
-    // Update network status in ViewModel everytime status has changed
-    LaunchedEffect(networkStatus) {
-        viewModel.onAction(UserReposAction.NetworkStatusChanged(networkStatus))
-    }
+
 
     UserReposScreen(
         state = viewModel.state,

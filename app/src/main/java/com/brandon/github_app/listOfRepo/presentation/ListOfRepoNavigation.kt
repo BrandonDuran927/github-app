@@ -10,19 +10,17 @@ import com.example.beupdated.core.network.NetworkStatus
 
 fun NavGraphBuilder.listOfRepoNavGraph(
     navController: NavController,
-    networkStatus: NetworkStatus
 ) {
     composable<UserRepos> {
         UserReposScreenCore(
-            networkStatus = networkStatus,
             onDetailsClick = { usersRepo ->
                 navController.navigate(RepoContents(
-                    usersRepo.owner.username,
-                    usersRepo.name
+                    id = usersRepo.id,
+                    owner = usersRepo.owner.username,
+                    repoName = usersRepo.name
                 ))
             },
             onBackPress = {
-                Log.d("UserReposNavGraph", "onBackPress: Pressed")
                 navController.navigateUp()
             }
         )

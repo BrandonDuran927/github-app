@@ -3,8 +3,12 @@ package com.brandon.github_app.fileViewer.data
 import android.util.Base64
 import android.util.Log
 import com.brandon.github_app.core.CustomResult
+import com.brandon.github_app.fileViewer.data.local.FileViewerDao
+import com.brandon.github_app.fileViewer.data.local.FileViewerEntity
 import com.brandon.github_app.fileViewer.data.mappers.toDomain
+import com.brandon.github_app.fileViewer.data.mappers.toEntity
 import com.brandon.github_app.fileViewer.data.remote.FileViewerApi
+import com.brandon.github_app.fileViewer.data.remote.respond.FileDto
 import com.brandon.github_app.fileViewer.domain.FileViewerRepository
 import com.brandon.github_app.fileViewer.domain.model.File
 import kotlinx.coroutines.flow.Flow
@@ -12,32 +16,60 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class FileViewerRepositoryImpl @Inject constructor(
-    private val api: FileViewerApi
+    private val api: FileViewerApi,
+    private val dao: FileViewerDao
 ) : FileViewerRepository {
     override suspend fun getFile(
+        repoId: Int,
         owner: String,
         repoName: String,
         filePath: String
     ): Flow<CustomResult<File>> {
         return flow {
             try {
-                val response = api.getRepoContents(
+                val id = "${repoId}_${filePath}"
+
+                val localFile = dao.getFile(repoId = id, filePath = filePath)
+
+                if (localFile != null) {
+                    val file = localFile.toDomain().copy(content = decodeBase64Content(localFile.content))
+                    emit(CustomResult.Success(file))
+                }
+
+                val remoteFile = api.getRepoContents(
                     owner = owner,
                     repo = repoName,
                     path = filePath
                 )
 
-                // Decode instantly
-                val file = response.toDomain().copy(content = decodeBase64Content(response.content))
+                val hasChanges = localFile == null || detectChanges(localFile, remoteFile)
 
-                Log.d("FileViewerRepositoryImpl", "getFile: $file")
-
-                emit(CustomResult.Success(file))
+                if (hasChanges) {
+                    dao.upsertFile(remoteFile.toEntity(repoId))
+                    val updatedFile = dao.getFile(repoId = id, filePath = filePath)
+                    Log.d("FileViewerRepositoryImpl", "repoId: $repoId, filePath: $filePath")
+                    val file = updatedFile!!.toDomain().copy(content = decodeBase64Content(updatedFile.content))
+                    emit(CustomResult.Success(file))
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
-                emit(CustomResult.Failure(e))
+                // Try to return cached file on error
+                val localFile = dao.getFile(repoId = "${repoId}_${filePath}", filePath = filePath)
+                if (localFile != null) {
+                    val file = localFile.toDomain().copy(content = decodeBase64Content(localFile.content))
+                    emit(CustomResult.Success(file))
+                } else {
+                    emit(CustomResult.Failure(e))
+                }
             }
         }
+    }
+
+    private fun detectChanges(
+        localFile: FileViewerEntity,
+        remoteFile: FileDto
+    ) : Boolean {
+        return localFile.sha != remoteFile.sha
     }
 
     private fun decodeBase64Content(base64Content: String?): String {

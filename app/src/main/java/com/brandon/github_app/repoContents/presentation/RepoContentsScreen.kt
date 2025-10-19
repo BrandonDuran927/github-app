@@ -44,7 +44,7 @@ import com.brandon.github_app.repoContents.domain.model.RepoContentsItem
 @Composable
 fun RepoContentsScreenCore(
     viewModel: RepoContentsViewModel = hiltViewModel<RepoContentsViewModel>(),
-    onDetailsClick: (RepoContentsItem, String, String) -> Unit,
+    onDetailsClick: (RepoContentsItem, String, String, Int) -> Unit,
     onBackPress: () -> Unit
 ) {
     RepoContentScreen(
@@ -59,7 +59,7 @@ fun RepoContentsScreenCore(
 @Composable
 fun RepoContentScreen(
     state: RepoContentsState,
-    onDetailsClick: (RepoContentsItem, String, String) -> Unit,
+    onDetailsClick: (RepoContentsItem, String, String, Int) -> Unit,
     onAction: (RepoContentsAction) -> Unit,
     onBackPress: () -> Unit
 ) {
@@ -68,7 +68,7 @@ fun RepoContentScreen(
             TopAppBar(
                 title = {},
                 navigationIcon = {
-                    IconButton(onClick = onBackPress ) {
+                    IconButton(onClick = onBackPress) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Default.KeyboardArrowLeft,
                             contentDescription = "Back to repositories",
@@ -115,7 +115,8 @@ fun RepoContentScreen(
                         repo = repo,
                         onDetailsClick = onDetailsClick,
                         ownerName = state.ownerName,
-                        repoName = state.repoName
+                        repoName = state.repoName,
+                        repoId = state.repoId ?: -1
                     )
                 }
             }
@@ -126,14 +127,15 @@ fun RepoContentScreen(
 @Composable
 fun ContentItem(
     repo: RepoContentsItem,
-    onDetailsClick: (RepoContentsItem, String, String) -> Unit,
+    onDetailsClick: (RepoContentsItem, String, String, Int) -> Unit,
     ownerName: String,
-    repoName: String
+    repoName: String,
+    repoId: Int
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onDetailsClick(repo, ownerName, repoName) }
+            .clickable { onDetailsClick(repo, ownerName, repoName, repoId) }
             .padding(vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween) {
@@ -191,11 +193,15 @@ private fun ScreenPreview() {
             state = RepoContentsState(
                 repoContents = listOf(
                     RepoContentsItem(
+                        repoId = 1,
+                        sha = "123",
                         name = "Android Shop",
                         path = "",
                         type = "dir"
                     ),
                     RepoContentsItem(
+                        repoId = 2,
+                        sha = "1233",
                         name = "README.md",
                         path = "",
                         type = "file"
@@ -203,7 +209,7 @@ private fun ScreenPreview() {
                 )
             ),
             onAction = {},
-            onDetailsClick = { no, op, h ->
+            onDetailsClick = { no, op, h, i ->
 
             },
             onBackPress = {}

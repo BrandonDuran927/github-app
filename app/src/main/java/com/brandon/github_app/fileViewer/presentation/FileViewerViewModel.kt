@@ -1,11 +1,13 @@
 package com.brandon.github_app.fileViewer.presentation
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.LOG_TAG
 import com.brandon.github_app.core.CustomResult
 import com.brandon.github_app.fileViewer.domain.FileViewerRepository
 import com.brandon.github_app.fileViewer.domain.model.File
@@ -18,6 +20,7 @@ class FileViewerViewModel @Inject constructor(
     private val repository: FileViewerRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+    private val repoId = savedStateHandle.getStateFlow("id", -1)
     private val owner = savedStateHandle.getStateFlow("owner", "")
     private val repo = savedStateHandle.getStateFlow("repoName", "")
     private val path = savedStateHandle.getStateFlow("filePath", "")
@@ -37,12 +40,29 @@ class FileViewerViewModel @Inject constructor(
         state = state.copy(isLoading = true)
 
         viewModelScope.launch {
-            repository.getFile(owner.value, repo.value, path.value).collect { result ->
+            repository.getFile(
+                repoId = repoId.value,
+                owner = owner.value,
+                repoName = repo.value,
+                filePath = path.value
+            ).collect { result ->
                 state = when (result) {
                     is CustomResult.Success<*> -> {
-                        state.copy(isLoading = false, file = result.data as File?, language = detectLanguage(result.data?.path))
+                        Log.d("FileViewerViewModel", "1 getFile: ${result.data}")
+                        state.copy(
+                            isLoading = false,
+                            file = result.data as File?,
+                            language = detectLanguage(result.data?.path)
+                        )
                     }
-                    is CustomResult.Failure -> state.copy(isLoading = false, error = result.exception.message)
+
+                    is CustomResult.Failure -> {
+                        Log.d("FileViewerViewModel", "2 getFile: ${result.exception.message}")
+                        state.copy(
+                            isLoading = false,
+                            error = result.exception.message
+                        )
+                    }
                 }
             }
         }

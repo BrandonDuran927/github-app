@@ -7,8 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserRepoRepository {
     suspend fun getUserRepos(
-        username: String,
-        networkStatus: NetworkStatus
+        username: String
     ): Flow<CustomResult<List<UserRepo>>>
 }
 

@@ -11,6 +11,7 @@ import com.brandon.github_app.core.CustomResult
 import com.brandon.github_app.repoContents.domain.RepoContentsRepository
 import com.brandon.github_app.repoContents.domain.model.RepoContentsItem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -27,7 +28,9 @@ class RepoContentsViewModel @Inject constructor(
         .also { state = state.copy(ownerName = it.value) }
     private val repo = savedStateHandle.getStateFlow("repoName", "")
         .also { state = state.copy(repoName = it.value) }
+    private val repoId = savedStateHandle.getStateFlow("id", -1)
     private val path = savedStateHandle.getStateFlow("path", "")
+
 
     init {
         retrieveRepoContents()
@@ -41,11 +44,16 @@ class RepoContentsViewModel @Inject constructor(
         state = state.copy(isLoading = true)
 
         viewModelScope.launch {
-            repository.getRepoContents(owner.value, repo.value, path.value)
+            repository.getRepoContents(
+                repoId = repoId.value,
+                owner = owner.value,
+                repo = repo.value,
+                path = path.value
+            )
                 .collectLatest { result ->
                     when (result) {
                         is CustomResult.Success<List<RepoContentsItem>> -> {
-                            Log.d("RepoContentsViewModel", "retrieveRepoContents: ${result.data}")
+                            Log.d("RepoContentsViewModel", "result: $result")
                             state = state.copy(
                                 repoContents = result.data,
                                 isLoading = false
@@ -53,6 +61,7 @@ class RepoContentsViewModel @Inject constructor(
                         }
 
                         is CustomResult.Failure -> {
+                            Log.d("RepoContentsViewModel", "result: ${result.exception.message}")
                             state = state.copy(
                                 error = result.exception.message,
                                 isLoading = false

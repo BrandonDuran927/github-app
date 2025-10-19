@@ -14,15 +14,17 @@ fun NavGraphBuilder.repoContentsNavGraph(
 ) {
     composable<RepoContents> {
         RepoContentsScreenCore(
-            onDetailsClick = { repoDetail, ownerName, repoName ->
+            onDetailsClick = { repoDetail, ownerName, repoName, repoId ->
                 if (repoDetail.type == "dir") {
                     navController.navigate(RepoContents(
+                        id = repoDetail.repoId,
                         owner = ownerName,
                         repoName = repoName,
                         path = repoDetail.path
                     ))
                 } else {
                     navController.navigate(FileViewer(
+                        id = repoDetail.repoId,
                         owner = ownerName,
                         repoName = repoName,
                         filePath = repoDetail.path

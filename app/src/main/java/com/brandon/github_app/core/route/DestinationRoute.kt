@@ -10,6 +10,7 @@ data class UserRepos(val username: String)
 
 @Serializable
 data class RepoContents(
+    val id: Int,
     val owner: String?,
     val repoName: String,
     val path: String = ""
@@ -17,6 +18,7 @@ data class RepoContents(
 
 @Serializable
 data class FileViewer(
+    val id: Int,
     val owner: String,
     val repoName: String,
     val filePath: String

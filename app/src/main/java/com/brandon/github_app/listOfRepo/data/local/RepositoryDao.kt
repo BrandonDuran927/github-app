@@ -9,6 +9,9 @@ interface RepositoryDao {
     @Upsert
     suspend fun upsertRepository(repositoryEntity: List<RepositoryEntity>)
 
-    @Query("SELECT * FROM RepositoryEntity")
-    suspend fun getRepositories(): List<RepositoryEntity>
+    @Query("DELETE FROM RepositoryEntity WHERE id IN (:ids)")
+    suspend fun deleteRepositories(ids: List<Int>)
+
+    @Query("SELECT * FROM RepositoryEntity WHERE LOWER(owner_username) = LOWER(:username)")
+    suspend fun getRepositories(username: String): List<RepositoryEntity>
 }
