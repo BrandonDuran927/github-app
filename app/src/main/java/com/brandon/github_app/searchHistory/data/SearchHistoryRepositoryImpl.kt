@@ -1,8 +1,6 @@
 package com.brandon.github_app.searchHistory.data
 
 import android.util.Log
-import androidx.compose.foundation.shape.CutCornerShape
-import androidx.compose.ui.text.toLowerCase
 import com.brandon.github_app.core.CustomResult
 import com.brandon.github_app.core.local.SearchDao
 import com.brandon.github_app.core.model.Search
@@ -27,7 +25,7 @@ class SearchHistoryRepositoryImpl @Inject constructor(
                     dao.deleteSearchHistory(existingSearch)
                 }
 
-                dao.upsertSearchHistory(Search(id = 0, searchHistory = query).toEntity())
+                dao.upsertSearch(Search(id = 0, searchHistory = query).toEntity())
                 emit(CustomResult.Success(Unit))
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -37,12 +35,11 @@ class SearchHistoryRepositoryImpl @Inject constructor(
     }
 
     override fun retrieveSearchHistory(): Flow<CustomResult<List<Search>>> {
-        return dao.getSearchHistory()
+        return dao.getActiveSearchHistory()
             .map { entities ->
                 try {
-                    val searches = entities.toDomain().sortedByDescending {
-                        it.id
-                    }
+                    val searches = entities.toDomain()
+                    Log.d("SearchHistoryRepositoryImpl", "Retrieved search history: $searches")
                     CustomResult.Success(searches)
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -55,9 +52,9 @@ class SearchHistoryRepositoryImpl @Inject constructor(
             }
     }
 
-    override suspend fun deleteSearchHistory(search: Search): CustomResult<Unit> {
+    override suspend fun archiveSearchHistory(search: Search): CustomResult<Unit> {
         return try {
-            dao.deleteSearchHistory(search.toEntity())
+            dao.archiveSearchHistory(search.id)
             CustomResult.Success(Unit)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -65,9 +62,9 @@ class SearchHistoryRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun deleteAllSearchHistory(): CustomResult<Unit> {
+    override suspend fun archiveAllSearchHistory(): CustomResult<Unit> {
         return try {
-            dao.deleteAllSearchHistory()
+            dao.archiveAllSearchHistory()
             CustomResult.Success(Unit)
         } catch (e: Exception) {
             e.printStackTrace()

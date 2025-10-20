@@ -5,7 +5,8 @@ import androidx.room.RoomDatabase
 
 @Database(
     entities = [SearchEntity::class],
-    version = 1
+    version = 2,
+    exportSchema = false
 )
 abstract class SearchDatabase : RoomDatabase() {
     abstract val dao: SearchDao

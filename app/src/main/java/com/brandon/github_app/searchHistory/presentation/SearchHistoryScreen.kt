@@ -1,6 +1,7 @@
 package com.brandon.github_app.searchHistory.presentation
 
 import android.content.res.Configuration
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -39,12 +40,14 @@ import com.brandon.github_app.core.model.Search
 @Composable
 fun SearchHistoryScreenCore(
     viewModel: SearchHistoryViewModel = hiltViewModel<SearchHistoryViewModel>(),
-    onBackPress: () -> Unit
+    onBackPress: () -> Unit,
+    onSearchClick: (String) -> Unit,
 ) {
     SearchHistoryScreen(
         state = viewModel.state,
         onAction = viewModel::onAction,
-        onBackPress = onBackPress
+        onBackPress = onBackPress,
+        onSearchClick = onSearchClick
     )
 }
 
@@ -53,7 +56,8 @@ fun SearchHistoryScreenCore(
 private fun SearchHistoryScreen(
     state: SearchHistoryState,
     onAction: (SearchHistoryAction) -> Unit,
-    onBackPress: () -> Unit
+    onBackPress: () -> Unit,
+    onSearchClick: (String) -> Unit
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -100,7 +104,12 @@ private fun SearchHistoryScreen(
 
             items(state.searchHistory) { item ->
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            onSearchClick(item.searchHistory)
+                        }
+                    ,
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
@@ -169,13 +178,8 @@ private fun ScreenPreview() {
         SearchHistoryScreen(
             state = SearchHistoryState(),
             onAction = {},
-            onBackPress = {}
+            onBackPress = {},
+            onSearchClick = {}
         )
     }
 }
-
-private val mockUpData = listOf(
-    Search(id = 1, "n0zzzy"),
-    Search(id = 2, "BrandonDuran927"),
-    Search(id = 3, "kevxxp"),
-)

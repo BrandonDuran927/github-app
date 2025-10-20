@@ -7,4 +7,5 @@ import androidx.room.PrimaryKey
 data class SearchEntity(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val searchHistory: String,
+    val isArchive: Boolean = false,
 )

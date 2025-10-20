@@ -26,7 +26,6 @@ class UserRepoRepositoryImpl @Inject constructor(
         return flow {
             try {
                 val localRepos = dao.getRepositories(username)
-                Log.d("UserRepoRepositoryImpl", "getUserRepos: $localRepos")
 
                 if (localRepos.isNotEmpty()) {
                     emit(CustomResult.Success(localRepos.toDomain()))
@@ -66,7 +65,6 @@ class UserRepoRepositoryImpl @Inject constructor(
 
             val localRepo = localMap[remoteRepo.id]
 
-            // Check if repository needs update
             if (localRepo == null ||
                 localRepo.pushed_at != remoteRepo.pushed_at ||
                 localRepo.updated_at != remoteRepo.updated_at

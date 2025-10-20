@@ -28,7 +28,7 @@ class SearchHistoryViewModel @Inject constructor(
         when (action) {
             is SearchHistoryAction.OnRemoveSearchHistory -> {
                 viewModelScope.launch {
-                    val result = repository.deleteSearchHistory(action.search)
+                    val result = repository.archiveSearchHistory(action.search)
 
                     when (result) {
                         is CustomResult.Success<*> -> { /* no-op */ }
@@ -38,7 +38,7 @@ class SearchHistoryViewModel @Inject constructor(
             }
             SearchHistoryAction.OnRemoveAllSearchHistory -> {
                 viewModelScope.launch {
-                    val result = repository.deleteAllSearchHistory()
+                    val result = repository.archiveAllSearchHistory()
 
                     when (result) {
                         is CustomResult.Success<*> -> { /* no-op */ }
@@ -57,6 +57,7 @@ class SearchHistoryViewModel @Inject constructor(
 
                 state = when (result) {
                     is CustomResult.Success<List<Search>> -> {
+                        Log.d("SearchHistoryViewModel", "Retrieved search history: ${result.data}")
                         state.copy(
                             searchHistory = result.data,
                             isLoading = false,

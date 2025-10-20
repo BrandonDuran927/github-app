@@ -31,7 +31,9 @@ object DI {
         return Room.databaseBuilder<SearchDatabase>(
             context,
             "search.db"
-        ).build()
+        )
+            .fallbackToDestructiveMigration(false)
+            .build()
     }
 
     @Singleton

@@ -48,7 +48,6 @@ class FileViewerViewModel @Inject constructor(
             ).collect { result ->
                 state = when (result) {
                     is CustomResult.Success<*> -> {
-                        Log.d("FileViewerViewModel", "1 getFile: ${result.data}")
                         state.copy(
                             isLoading = false,
                             file = result.data as File?,
@@ -57,7 +56,6 @@ class FileViewerViewModel @Inject constructor(
                     }
 
                     is CustomResult.Failure -> {
-                        Log.d("FileViewerViewModel", "2 getFile: ${result.exception.message}")
                         state.copy(
                             isLoading = false,
                             error = result.exception.message

@@ -31,7 +31,6 @@ class SearchViewModel @Inject constructor(
             }
             SearchAction.ResetState -> state = SearchState()
             is SearchAction.StoreSearch -> {
-                Log.d("SearchViewModel", "Storing search query: ${action.query}")
                 state = state.copy(isLoading = true)
 
                 viewModelScope.launch {

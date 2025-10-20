@@ -53,7 +53,6 @@ class RepoContentsViewModel @Inject constructor(
                 .collectLatest { result ->
                     when (result) {
                         is CustomResult.Success<List<RepoContentsItem>> -> {
-                            Log.d("RepoContentsViewModel", "result: $result")
                             state = state.copy(
                                 repoContents = result.data,
                                 isLoading = false
@@ -61,7 +60,6 @@ class RepoContentsViewModel @Inject constructor(
                         }
 
                         is CustomResult.Failure -> {
-                            Log.d("RepoContentsViewModel", "result: ${result.exception.message}")
                             state = state.copy(
                                 error = result.exception.message,
                                 isLoading = false

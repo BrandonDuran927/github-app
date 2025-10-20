@@ -47,13 +47,11 @@ class FileViewerRepositoryImpl @Inject constructor(
                 if (hasChanges) {
                     dao.upsertFile(remoteFile.toEntity(repoId))
                     val updatedFile = dao.getFile(repoId = id, filePath = filePath)
-                    Log.d("FileViewerRepositoryImpl", "repoId: $repoId, filePath: $filePath")
                     val file = updatedFile!!.toDomain().copy(content = decodeBase64Content(updatedFile.content))
                     emit(CustomResult.Success(file))
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                // Try to return cached file on error
                 val localFile = dao.getFile(repoId = "${repoId}_${filePath}", filePath = filePath)
                 if (localFile != null) {
                     val file = localFile.toDomain().copy(content = decodeBase64Content(localFile.content))

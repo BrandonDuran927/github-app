@@ -32,7 +32,6 @@ fun NavGraphBuilder.repoContentsNavGraph(
                 }
             },
             onBackPress = {
-                Log.d("RepoContentsNavGraph", "onBackPress: Pressed")
                 navController.navigateUp()
             },
         )
