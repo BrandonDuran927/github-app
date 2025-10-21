@@ -39,7 +39,6 @@ class SearchHistoryRepositoryImpl @Inject constructor(
             .map { entities ->
                 try {
                     val searches = entities.toDomain()
-                    Log.d("SearchHistoryRepositoryImpl", "Retrieved search history: $searches")
                     CustomResult.Success(searches)
                 } catch (e: Exception) {
                     e.printStackTrace()

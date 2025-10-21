@@ -32,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -107,17 +108,31 @@ fun RepoContentScreen(
 
             Spacer(Modifier.height(16.dp))
 
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(6.dp)
-            ) {
-                items(state.repoContents) { repo ->
-                    ContentItem(
-                        repo = repo,
-                        onDetailsClick = onDetailsClick,
-                        ownerName = state.ownerName,
-                        repoName = state.repoName,
-                        repoId = state.repoId ?: -1
+            when {
+                state.repoContents.isEmpty() -> {
+                    Text(
+                        text = "No content available",
+                        fontSize = 24.sp,
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center
                     )
+                }
+
+                else -> {
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(6.dp)
+                    ) {
+                        items(state.repoContents) { repo ->
+                            ContentItem(
+                                repo = repo,
+                                onDetailsClick = onDetailsClick,
+                                ownerName = state.ownerName,
+                                repoName = state.repoName,
+                                repoId = state.repoId ?: -1
+                            )
+                        }
+                    }
                 }
             }
         }
